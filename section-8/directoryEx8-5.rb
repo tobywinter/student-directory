@@ -1,20 +1,20 @@
 @students = [] #an empty array accessibly to all methods (instance variable?)
 @letter = ""
 
-def my_puts(str)
-  puts str.center(100)
-end
-
 def input_students
-  my_puts "Please enter the names of the students"
-  my_puts "To finish, just hit return twice"
+  puts "Please enter the names of the students".center(20)
+  puts "To finish, just hit return twice".center(20)
   #get the first name
   name = STDIN.gets.chomp
+  puts "Enter students age"
+  age = STDIN.gets.chomp
+  puts "Enter students country of birth"
+  countryofbirth = STDIN.gets.chomp
   #while the name is not empty, repeat this code
   while !name.empty? do
     #add the student hash to the array
-    @students << {name: name, cohort: :November}
-    my_puts "Now we have #{@students.count} students"
+    @students << {name: name, cohort: :November, age: age, countryofbirth: countryofbirth, }
+    puts "Now we have #{@students.count} students".center(20)
     #get another name from the user
     name = STDIN.gets.chomp
   end
@@ -30,7 +30,7 @@ def save_students
     file.puts csv_line
   end
   file.close
-  my_puts "Student list saved"
+  puts "Student list saved".center(20)
 end
 
 def load_students (filename = "students.csv")
@@ -39,7 +39,7 @@ def load_students (filename = "students.csv")
     name, cohort = line.chomp.split(",")
       @students << {name: name, cohort: cohort.to_sym}
     end
-    my_puts "Loaded #{@students.count} from #{filename}"
+    puts "Loaded #{@students.count} from #{filename}".center(20)
     file.close
 end
 
@@ -48,9 +48,9 @@ def try_load_students
   return if filename.nil? # get out of the method if it isn't given
   if File.exists?(filename) #if it exists
     load_students(filename)
-    my_puts "Loaded #{@students.count} from #{filename}"
+    puts "Loaded #{@students.count} from #{filename}".center(20)
   else #if it doesn't exist
-    my_puts "Sorry, #{filename} doesn't exist."
+    puts "Sorry, #{filename} doesn't exist.".center(20)
     exit #quit the program
   end
 end
@@ -58,44 +58,44 @@ end
 def print_students_alpha
   @students_alpha = @students.select {|student| (student[:name][0]) == (@letter.upcase)}
   @students_alpha.each do |student|
-    my_puts "#{@students_alpha.find_index(student)+1}. #{student[:name]} (#{student[:cohort]} cohort)"
+    puts "#{@students_alpha.find_index(student)+1}. #{student[:name]} (#{student[:cohort]} cohort)".center(20)
   end
 end
 
 def print_header_alpha
-  my_puts "The students of Villains Academy A-Z - #{@letter.upcase}"
-  my_puts "------------"
+  puts "The students of Villains Academy A-Z - #{@letter.upcase}".center(20)
+  puts "------------"
 end
 
 def print_footer_alpha
-  my_puts "We have #{@students_alpha.count} beginning with #{@letter.upcase}"
+  puts "We have #{@students_alpha.count} beginning with #{@letter.upcase}".center(20)
 end
 
 def print_header
-  my_puts "The students of Villains Academy"
-  my_puts "------------"
+  puts "The students of Villains Academy"
+  puts "------------"
 end
 
 def print_students_list
   index = 0
   until index == @students.length
-    my_puts "#{index+1}.#{@students[index][:name]} (#{@students[index][:cohort]} cohort)\n"
+    print "#{index+1}.#{@students[index][:name]} (#{@students[index][:cohort]} cohort)\n".center(20)
     index += 1
   end
 end
 
 def print_footer
-  my_puts "Overall, we have #{@students.count} great students"
+  puts "Overall, we have #{@students.count} great students".center(20)
 end
 
 def print_menu
-  my_puts "1. Input the students"
-  my_puts "2. Show the students"
-  my_puts "3. Save the lists to students.csv"
-  my_puts "4. Load the list from students.csv"
-  my_puts "5. Show students with names that begin with a specific letter"
-  my_puts "6. Show students with names less that 12 characters long"
-  my_puts "9. Exit" #9 because we'll add more items inbetween
+  puts "1. Input the students".
+  puts "2. Show the students"
+  puts "3. Save the lists to students.csv"
+  puts "4. Load the list from students.csv"
+  puts "5. Show students with names that begin with a specific letter"
+  puts "6. Show students with names less that 12 characters long"
+  puts "9. Exit" #9 because we'll add more items inbetween
 end
 
 def show_students
@@ -105,7 +105,7 @@ def show_students
 end
 
 def show_students_alpha
-  my_puts "Please select a letter to sort for:"
+  puts "Please select a letter to sort for:".center(20)
   @letter = STDIN.gets.chomp
   print_header_alpha
   print_students_alpha
@@ -115,12 +115,12 @@ end
 def print_students_short
   @students_short = @students.select {|student| (student[:name].length) < 12}
   @students_short.each do |student|
-    my_puts "#{@students_short.find_index(student)+1}. #{student[:name]} (#{student[:cohort]} cohort)"
+    puts "#{@students_short.find_index(student)+1}. #{student[:name]} (#{student[:cohort]} cohort)".center(20)
   end
 end
 
 def print_footer_alpha
-  my_puts "We have #{@students_short.count} with names less that 12 characters."
+  puts "We have #{@students_short.count} with names less that 12 characters.".center(20)
 end
 
 def show_students_short
@@ -146,7 +146,7 @@ def process(selection)
     when "9"
       exit
     else
-      my_puts "I don't know what you mean, try again"
+      puts "I don't know what you mean, try again".center(20)
   end
 end
 
@@ -156,6 +156,7 @@ def interactive_menu
     process(STDIN.gets.chomp)
   end
 end
+
 
 #nothing happens until we call the methods
 try_load_students
